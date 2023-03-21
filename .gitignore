@@ -1,3 +1,7 @@
 directoryStructure\package-lock.json
 directoryStructure\package.json
 directoryStructure\node_modules
+cookieAuth\simpleauth\node_modules
+cookieAuth\simpleauth\package-lock.json
+cookieAuth\simpleauth\package.json
+cookieAuth\backend\node_modules
