@@ -1,12 +1,15 @@
 import express from "express";
 import cors from "cors";
-import login from "./routes/urlEndpoints.mjs"
-app = express();
-PORT = 5050;
+import router from "./routes/urlEndpoints.mjs"
 
-app.use(cors);
+const app = express();
+const PORT = 3000;
 
-app.use("/login", login);
+app.use(cors());
+app.use(express.json());
+
+app.use("/", router);
+
 
 app.listen(PORT, () => {
     console.log(`Started Server on ${PORT}`);

@@ -15,6 +15,6 @@ try{
     console.log(e)
 }
 
-const db = conn.db("Protoype")
+const db = conn.db("Prototype");
 
 export default db;
