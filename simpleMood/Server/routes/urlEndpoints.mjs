@@ -1,18 +1,34 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import { v4 as uuidv4 } from 'uuid';
+import hash from "./routeUtils.mjs";
 
 const router = express.Router();
+
+router.post("/signup", async(req,res) => {
+    let collection = await db.collection("users");
+
+    let {username,password,email} = req.body;
+    const hashedString = hash(username + password);
+    let checkUsername = await collection.findOne({user: username});
+
+    if (checkUsername){
+        res.send("UserName Not Available");
+    }
+    else{
+        const userEntry = {user: username, hash: hashedString, email: email};
+        collection.insertOne(userEntry);
+        res.status(200).send("User Created");
+    }
+})
 
 router.post("/login", async (req,res) => {
     let collection = await db.collection("users");
 
     let {username, password} = req.body;
-    console.log(username);
-    let query = {user: username};
-    let result = await collection.findOne();
-
-    console.log(result);
+    const hashedString = hash(username+password);
+    let query = {hash: hashedString};
+    let result = await collection.findOne(query);
 
     if (result){
         let sessionCollection = await db.collection("sessions")

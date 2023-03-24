@@ -3,7 +3,7 @@ import cors from "cors";
 import router from "./routes/urlEndpoints.mjs"
 
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 
 app.use(cors());
 app.use(express.json());
