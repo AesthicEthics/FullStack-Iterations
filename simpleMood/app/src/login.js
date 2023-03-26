@@ -29,27 +29,33 @@ function Login() {
     // use (e) => handleSubmit() to stop the page from
     // rendering and hence invoking the handleSubmit function 
     // everytime the page is loaded and only do it when an "event" occurs
-    <div>
+    <div id="loginContainer">
       <form onSubmit={(e) =>{ 
         e.preventDefault();
         handleSubmit(userName, password)}}>
-          
-        <label>
-          UserName: 
-          <input
-          type="text"
-          onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
+        
+        <div>
+            Username:
+            <br/>
+            <input
+            type="text"
+            onChange={(e) => setUsername(e.target.value)}
+            />
+        </div>
 
-        <label>
-          Password: 
-          <input
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+        <div>
+          <label>
+            Password:
+            <br/> 
+            <input
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+        </div>
+
         <button type="submit">Login</button>
+
       </form>
     </div>
   );
