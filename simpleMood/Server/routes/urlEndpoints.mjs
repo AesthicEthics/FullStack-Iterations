@@ -11,9 +11,10 @@ router.post("/signup", async(req,res) => {
     let {username,password,email} = req.body;
     const hashedString = hash(username + password);
     let checkUsername = await collection.findOne({user: username});
+    let checkEmail = await(collection.findOne({emai: email}));
 
-    if (checkUsername){
-        res.send("UserName Not Available");
+    if (checkUsername || checkEmail){
+        res.status(401).send("Username or email not available");
     }
     else{
         const userEntry = {user: username, hash: hashedString, email: email};
