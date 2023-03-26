@@ -1,5 +1,5 @@
-import Login from "./login";
-import SignUp from "./signup";
+import Login from "./pages/login/login";
+import SignUp from "./pages/signup/signup";
 import{
     BrowserRouter as Router, 
     Switch, 
@@ -17,7 +17,7 @@ const App = () =>{
                 <Route path="/signup">
                     <SignUp/>
                 </Route>
-                
+
             </Switch>
         </Router>
     )
