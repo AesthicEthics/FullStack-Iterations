@@ -20,7 +20,7 @@ async function handleSubmit (username, password, email){
         const response = await axios.post(url, postContents);
         response.data.then(data => alert(data));
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error.response.status === 403) {
           alert(error.response.data);
         }
       }

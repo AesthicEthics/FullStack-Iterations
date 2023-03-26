@@ -61,7 +61,7 @@ router.post("/login", async (req,res) => {
 
         sessionCollection.insertOne(insertCookie);
 
-        res.set('Set-Cookie', `session=${sessionCookie}`);
+        res.cookie('session', sessionCookie);
         res.status(200).send("Login Success");
     }
     else{

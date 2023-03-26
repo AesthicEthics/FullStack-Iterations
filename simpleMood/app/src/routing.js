@@ -1,5 +1,7 @@
 import Login from "./pages/login/login";
 import SignUp from "./pages/signup/signup";
+import Home
+ from "./pages/home/home";
 import{
     BrowserRouter as Router, 
     Switch, 
@@ -16,6 +18,10 @@ const App = () =>{
 
                 <Route path="/signup">
                     <SignUp/>
+                </Route>
+
+                <Route>
+                    <Home />
                 </Route>
 
             </Switch>
