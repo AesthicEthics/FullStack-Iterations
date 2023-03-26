@@ -31,11 +31,34 @@ router.post("/login", async (req,res) => {
     let query = {hash: hashedString};
     let result = await collection.findOne(query);
 
+    
     if (result){
+        // the cookie is re-inserting everytime the user logins 
+        // there needs to be management that is in place to handle cookie 
+        // auth
+
         let sessionCollection = await db.collection("sessions")
+
+        // code to prevent sessionId regeneration
+        // let wildQuery = sessionCollection.aggregate([
+        //     {"$search": {
+        //         "wildcard":{
+        //             "query": username
+        //         }
+        //     }}
+        // ])
+        
+        // if (wildQuery){
+        //     console.log(wildQuery);
+        // }
         const sessionCookie = uuidv4();
 
-        const insertCookie = {sessionCookie: [username]}
+        const insertCookie = {
+            cookie: sessionCookie,
+            user: username
+        };
+    
+
         sessionCollection.insertOne(insertCookie);
 
         res.set('Set-Cookie', `session=${sessionCookie}`);
@@ -44,6 +67,22 @@ router.post("/login", async (req,res) => {
     else{
         res.status(403).send("Login Failed")
     }
+})
+
+router.get("/home", async (req,res) => {
+    // extract session cookie to verify existence in the DB 
+    const sessionCookie = req.headers.cookie?.split("=")[1];
+    // verify user session
+    let collection = await db.collection("sessions");
+    const query = await collection.findOne({cookie: sessionCookie})
+
+    if (query){
+        res.status(200).send();
+    }
+    else{
+        res.status(403).send("Session Timed Out. Please Login Again")
+    }
+
 })
 
 export default router;
