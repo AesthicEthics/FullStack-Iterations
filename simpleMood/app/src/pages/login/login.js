@@ -5,6 +5,7 @@ import axios from 'axios';
 function handleSubmit(username, password){
   // add the backend url
   const url = "http://localhost:8080/login";
+  axios.defaults.withCredentials = true; // include credentials
 
   // construct postContents in json form
   const postContents = {
