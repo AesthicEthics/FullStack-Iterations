@@ -2,6 +2,8 @@ import axios from 'axios';
 
 async function confirmLogin() {
     const url = "http://localhost:8080/home";
+    axios.defaults.withCredentials = true; // include credentials
+    
     let login = false;
   
     try {
