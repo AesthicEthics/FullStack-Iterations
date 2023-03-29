@@ -36,33 +36,36 @@ router.post("/login", async (req,res) => {
         // the cookie is re-inserting everytime the user logins 
         // there needs to be management that is in place to handle cookie 
         // auth
-
         let sessionCollection = await db.collection("sessions")
+        var sessionCookie = req.headers.cookie?.split('=')[1];
 
-        // code to prevent sessionId regeneration
-        // let wildQuery = sessionCollection.aggregate([
-        //     {"$search": {
-        //         "wildcard":{
-        //             "query": username
-        //         }
-        //     }}
-        // ])
-        
-        // if (wildQuery){
-        //     console.log(wildQuery);
-        // }
-        const sessionCookie = uuidv4();
+        console.log(sessionCookie);
 
-        const insertCookie = {
-            cookie: sessionCookie,
-            user: username
-        };
+        if (sessionCookie){
+            // if the session Cookie exists, check for its existence in the db
+            let cookieQuery = {cookie: sessionCookie};
+
+            console.log(cookieQuery);
+
+            let isCookie = await sessionCollection.findOne(cookieQuery);
+
+            if (isCookie){
+                res.status(200).send("Login Success");
+            }
+        }
+
+        else{
+            const sessionCookie = uuidv4();
+            const insertCookie = {
+                cookie: sessionCookie,
+                user: username
+            };
     
+            sessionCollection.insertOne(insertCookie);
 
-        sessionCollection.insertOne(insertCookie);
-
-        res.cookie('session', sessionCookie);
-        res.status(200).send("Login Success");
+            res.cookie('session', sessionCookie);
+            res.status(200).send("Login Success");       
+        }
     }
     else{
         res.status(403).send("Login Failed")

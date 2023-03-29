@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 async function confirmLogin() {
     const url = "http://localhost:8080/home";
@@ -21,19 +22,23 @@ async function confirmLogin() {
   }
 
 
-function Home(){
-    const checkLogin = confirmLogin();
-
-    if (checkLogin === true){
-        return(
-            <div> Login Success </div>
-        )
+  function Home() {
+    const [loggedIn, setLoggedIn] = useState(null);
+  
+    useEffect(() => {
+      confirmLogin().then((result) => {
+        setLoggedIn(result);
+      });
+    }, []);
+  
+    if (loggedIn === null) {
+      // show loading spinner or other indicator
+      return <div>Loading...</div>;
+    } else if (loggedIn) {
+      return <div>Login Success</div>;
+    } else {
+      return <div>Session Timeout Lolz</div>;
     }
-    else{
-        return(
-            <div>Session Timeout Lolz</div>
-        )
-    }
-}
+  }
 
 export default Home;
