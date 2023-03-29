@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import Navbar from "../components/navbar"
 
 async function confirmLogin() {
     const url = "http://localhost:8080/home";
@@ -35,7 +36,7 @@ async function confirmLogin() {
       // show loading spinner or other indicator
       return <div>Loading...</div>;
     } else if (loggedIn) {
-      return <div>Login Success</div>;
+      return Navbar("Sample");
     } else {
       return <div>Session Timeout Lolz</div>;
     }
