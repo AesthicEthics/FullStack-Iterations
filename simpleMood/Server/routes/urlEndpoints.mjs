@@ -84,7 +84,7 @@ router.post("/login", async (req,res) => {
 })
 
 router.get("/home", async (req,res) => {
-    const isSession = validateSession(db, res, req);
+    const isSession = await validateSession(db, res, req);
 
     if (isSession){
         res.status(200).send();
@@ -107,7 +107,7 @@ router.post("/logout", async(req, res) => {
 })
 
 router.post("/add", async(req, res) =>{
-    const isSession = validateSession(db, res, req);
+    const isSession = await validateSession(db, res, req);
 
     // if the session is valid 
     if (isSession){
@@ -120,12 +120,21 @@ router.post("/add", async(req, res) =>{
 
         // if the searched user exists 
         if (isFriend){
-            // construct a query where the friends tab of the user is updated
+            // extract current user
+            
+            
+            // construct a query where the friends tab of the currentUser is updated
+
+
+            // construct a query where the friends tab of the friend is updated
+
         } else{
             // otherwise return a 404 
             res.status(404).send("User Not Found");
         }
 
+    } else {
+        res.status(403).send("Must Be Logged In")
     }
 })
 

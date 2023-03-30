@@ -16,10 +16,7 @@ async function handleSubmit(friendUsername){
         }
     } catch(error){
         const errorStatus = error.response.status;
-
-        if (errorStatus == 404){
-            alert("User Not Found");
-        }
+        alert(error.response.data);
     }
 }
 
