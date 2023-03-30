@@ -1,7 +1,9 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import { v4 as uuidv4 } from 'uuid';
-import hash from "./routeUtils.mjs";
+import hash from "./utils/checkHash.mjs";
+import validateSession from "./utils/validateSession.mjs";
+
 
 const router = express.Router();
 
@@ -17,7 +19,7 @@ router.post("/signup", async(req,res) => {
         res.status(401).send("Username or email not available");
     }
     else{
-        const userEntry = {user: username, hash: hashedString, email: email};
+        const userEntry = {user: username, hash: hashedString, email: email, friends: []};
         collection.insertOne(userEntry);
         res.status(200).send("User Created");
     }
@@ -39,18 +41,27 @@ router.post("/login", async (req,res) => {
         let sessionCollection = await db.collection("sessions")
         var sessionCookie = req.headers.cookie?.split('=')[1];
 
-        console.log(sessionCookie);
-
         if (sessionCookie){
             // if the session Cookie exists, check for its existence in the db
             let cookieQuery = {cookie: sessionCookie};
-
-            console.log(cookieQuery);
 
             let isCookie = await sessionCollection.findOne(cookieQuery);
 
             if (isCookie){
                 res.status(200).send("Login Success");
+            }
+            
+            else{
+                const sessionCookie = uuidv4();
+                const insertCookie = {
+                    cookie: sessionCookie,
+                    user: username
+                };
+        
+                sessionCollection.insertOne(insertCookie);
+    
+                res.cookie('session', sessionCookie);
+                res.status(200).send("Login Success");       
             }
         }
 
@@ -73,19 +84,49 @@ router.post("/login", async (req,res) => {
 })
 
 router.get("/home", async (req,res) => {
-    // extract session cookie to verify existence in the DB 
-    const sessionCookie = req.headers.cookie?.split("=")[1];
-    // verify user session
-    let collection = await db.collection("sessions");
-    const query = await collection.findOne({cookie: sessionCookie})
+    const isSession = validateSession(db, res, req);
 
-    if (query){
+    if (isSession){
         res.status(200).send();
     }
     else{
-        res.status(403).send("Session Timed Out. Please Login Again")
+        res.status(403).send("Session Timed Out. Please Login Again");
     }
+})
 
+router.post("/logout", async(req, res) => {
+    const sessionCookie = req.headers.cookie?.split("=")[1];
+
+    let collection = await db.collection("sessions");
+    const query = {cookie: sessionCookie};
+
+    // delete the document with the session cookie
+    collection.deleteOne(query);
+
+    res.status(200).send();
+})
+
+router.post("/add", async(req, res) =>{
+    const isSession = validateSession(db, res, req);
+
+    // if the session is valid 
+    if (isSession){
+        // extract request content 
+        const friendUsername = req.body;
+        // check if the user the person wants to add exists in the db 
+        let collection = await db.collection("users")
+        const query = {username: friendUsername};
+        let isFriend = await collection.findOne(query);
+
+        // if the searched user exists 
+        if (isFriend){
+            // construct a query where the friends tab of the user is updated
+        } else{
+            // otherwise return a 404 
+            res.status(404).send("User Not Found");
+        }
+
+    }
 })
 
 export default router;

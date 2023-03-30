@@ -1,7 +1,7 @@
 import Login from "./pages/login/login";
 import SignUp from "./pages/signup/signup";
-import Home
- from "./pages/home/home";
+import Home from "./pages/home/home";
+import AddFriend from "./pages/add/addFriend";
 import{
     BrowserRouter as Router, 
     Switch, 
@@ -24,6 +24,9 @@ const App = () =>{
                     <Home />
                 </Route>
 
+                <Route path="/add">
+                    <AddFriend />
+                </Route>
             </Switch>
         </Router>
     )
