@@ -158,4 +158,14 @@ router.get("/friends", async (req,res) => {
     }
 })
 
+router.get("/getUser", async (req, res) => {
+    const isSession = await validateSession(db, res, req);
+
+    if (isSession){
+        res.status(200).send(await getUser(db, req))
+    } else{
+        res.status(403).send("Session Expired")
+    }
+})
+
 export default router;
