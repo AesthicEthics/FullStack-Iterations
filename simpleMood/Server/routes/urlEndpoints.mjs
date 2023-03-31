@@ -3,7 +3,7 @@ import db from "../db/conn.mjs";
 import { v4 as uuidv4 } from 'uuid';
 import hash from "./utils/checkHash.mjs";
 import validateSession from "./utils/validateSession.mjs";
-
+import AddFriend from "./utils/addFriend.mjs";
 
 const router = express.Router();
 
@@ -112,21 +112,32 @@ router.post("/add", async(req, res) =>{
     // if the session is valid 
     if (isSession){
         // extract request content 
-        const friendUsername = req.body;
+        const {friendUsername} = req.body;
+
         // check if the user the person wants to add exists in the db 
-        let collection = await db.collection("users")
-        const query = {username: friendUsername};
+        let collection = await db.collection("users");
+        const query = {user: friendUsername};
         let isFriend = await collection.findOne(query);
 
         // if the searched user exists 
         if (isFriend){
+            const sessionCookie = req.headers.cookie?.split("=")[1];
             // extract current user
-            
+            let collection = await db.collection("sessions");
+            const query = {cookie: sessionCookie};
+            const findUser = await (collection.findOne(query));
+            const currentUser = findUser.user;
+
             
             // construct a query where the friends tab of the currentUser is updated
-
-
-            // construct a query where the friends tab of the friend is updated
+            if (AddFriend(db, currentUser, friendUsername) === true){
+                // construct a query where the friends tab of the friend is updated
+                AddFriend(db,friendUsername,currentUser);
+                res.status(200).send(`${friendUsername} is now your friend!`);
+            }
+            else{
+                res.status(200).send(`${friendUsername} and you are already friends!`);
+            }
 
         } else{
             // otherwise return a 404 

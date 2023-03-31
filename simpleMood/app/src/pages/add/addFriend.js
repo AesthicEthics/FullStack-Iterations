@@ -12,7 +12,7 @@ async function handleSubmit(friendUsername){
     try{
         const response = await axios.post(url, postContents);
         if (response.status === 200){
-            alert("User Added!")
+            alert(response.data)
         }
     } catch(error){
         const errorStatus = error.response.status;
