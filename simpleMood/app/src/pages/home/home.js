@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Navbar from "../components/navbar"
+import ShowFriends from '../components/showFriends';
 import ConfirmLogin from "../utils/confirmLogin"
 
   function Home() {
@@ -15,7 +16,12 @@ import ConfirmLogin from "../utils/confirmLogin"
       // show loading spinner or other indicator
       return <div>Loading...</div>;
     } else if (loggedIn) {
-      return Navbar("Sample");
+      return (
+        <>
+          <Navbar/>
+          <ShowFriends/>
+        </>
+      );
     } else {
       return <div>Session Timeout Lolz</div>;
     }

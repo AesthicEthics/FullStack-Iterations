@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import hash from "./utils/checkHash.mjs";
 import validateSession from "./utils/validateSession.mjs";
 import AddFriend from "./utils/addFriend.mjs";
+import getUser from "./utils/getCurrent.mjs";
 
 const router = express.Router();
 
@@ -121,18 +122,13 @@ router.post("/add", async(req, res) =>{
 
         // if the searched user exists 
         if (isFriend){
-            const sessionCookie = req.headers.cookie?.split("=")[1];
-            // extract current user
-            let collection = await db.collection("sessions");
-            const query = {cookie: sessionCookie};
-            const findUser = await (collection.findOne(query));
-            const currentUser = findUser.user;
-
-            
+            const currentUser = await getUser(db, req);
             // construct a query where the friends tab of the currentUser is updated
-            if (AddFriend(db, currentUser, friendUsername) === true){
+            const checkFriend = await AddFriend(db, currentUser, friendUsername);
+
+            if (checkFriend){
                 // construct a query where the friends tab of the friend is updated
-                AddFriend(db,friendUsername,currentUser);
+                await AddFriend(db,friendUsername,currentUser);
                 res.status(200).send(`${friendUsername} is now your friend!`);
             }
             else{
@@ -146,6 +142,20 @@ router.post("/add", async(req, res) =>{
 
     } else {
         res.status(403).send("Must Be Logged In")
+    }
+})
+
+router.get("/friends", async (req,res) => {
+    const isSession = await validateSession(db, res, req);
+
+    if (isSession) {
+        let collection = await db.collection("users");
+        const currentUser = await getUser(db, req);
+
+        let loadDocument = await collection.findOne({user: currentUser});
+        const userFriends = loadDocument.friends;
+        
+        res.json({friends: userFriends});
     }
 })
 
