@@ -7,11 +7,11 @@ async function Logout(){
     try{
         const response = await axios.post(url);
         if (response.status === 200){
-            alert("Logged Out!")
+            console.log("Logged Out");
         }
     } catch(error){
         if (error.response.status === 500){
-            alert("Something Went Wrong...")
+            console.log("Something Went Wrong...")
         }
     }
 }

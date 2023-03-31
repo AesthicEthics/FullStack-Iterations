@@ -8,7 +8,7 @@ function Navbar(){
                 <div class="nav-div">
                     <ul><a class="nav-a"href="/home">Home </a></ul>
                     <ul><a class="nav-a" href="/add">Add Friend</a> </ul>
-                    <ul><a class="nav-a" href="#" onClick={(e) => {Logout()}}> Sign Out</a></ul>
+                    <ul><a class="nav-a" href="/" onClick={(e) => {Logout()}}> Sign Out</a></ul>
                 </div>
             </body>
         </>

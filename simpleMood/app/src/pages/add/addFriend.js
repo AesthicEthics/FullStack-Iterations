@@ -15,7 +15,6 @@ async function handleSubmit(friendUsername){
             alert(response.data)
         }
     } catch(error){
-        const errorStatus = error.response.status;
         alert(error.response.data);
     }
 }

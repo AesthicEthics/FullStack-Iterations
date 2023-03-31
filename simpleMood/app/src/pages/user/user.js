@@ -23,7 +23,7 @@ function User(){
         loadUser(url).then((results) => {
             setIsUser(results);
         });
-    }, []);
+    }, [url]);
 
     if (isUser){
         return(

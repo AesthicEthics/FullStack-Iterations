@@ -26,7 +26,7 @@ function ShowFriends(){
         });
     }, []);
     
-    const myFriends = friends.map((friends) => <li key={friends}><a href={`/users/${friends}`}>{friends}</a></li>);
+    const myFriends = friends.map((friends) => <li key={friends}><a href={`/users/${friends}`}>👤{friends}</a></li>);
     return(
         <>
             <div>

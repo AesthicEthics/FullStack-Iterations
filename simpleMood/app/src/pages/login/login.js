@@ -1,30 +1,33 @@
 import './login.css';
 import { useState } from "react";
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-function handleSubmit(username, password){
+async function handleSubmit(username, password){
   // add the backend url
   const url = "http://localhost:8080/login";
   axios.defaults.withCredentials = true; // include credentials
-
   // construct postContents in json form
   const postContents = {
     username: username,
     password: password
   };
 
-  axios.post(url,postContents)
-  // use then to resolve the perfomance and capture response data
-  .then((response => {
-    alert(response.data)
-  }))
-  return
+  try{
+    const response = await axios.post(url, postContents);
+    if (response.status === 200){
+      return (true);
+    }
+  } catch (error){
+    console.log(error)
+  }
 }
 function Login() {
   //setUsername are setter functionst that 
   // set the value of the "userName" functions
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
   return (
     // use (e) => handleSubmit() to stop the page from
@@ -33,8 +36,9 @@ function Login() {
      <>
      <div id="loginContainer">
         <form onSubmit={(e) =>{ 
-          e.preventDefault();
-          handleSubmit(userName, password)}}>
+          if(handleSubmit(userName, password)){
+            history.push("/home");
+          }}}>
           
           <div>
               Username:
