@@ -9,7 +9,7 @@ async function getFriends(){
         const response = await axios.get(url);
         if (response.status === 200){
             const friendList = response.data;
-            alert(friendList.friends);
+            return([friendList.friends]);
         }
     } catch(error){
         alert(error.response.data);
@@ -17,18 +17,21 @@ async function getFriends(){
 }
 
 function ShowFriends(){
-    const [friends, setFriends] = useState("");
+    const [friends, setFriends] = useState([]);
 
     useEffect(() => {
         getFriends().then(results => {
-            setFriends(results.data.friends);
+            setFriends(results[0]);
         });
     }, []);
     
-    console.log(friends);
+    const myFriends = friends.map((friends) => <li key={friends}><a href={`/users/${friends}`}>{friends}</a></li>);
     return(
         <>
-            <p>Hi</p>
+            <div>
+                <u>Friends</u>
+                {myFriends}
+            </div>
         </>
     )
 }

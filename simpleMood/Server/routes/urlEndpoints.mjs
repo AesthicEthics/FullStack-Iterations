@@ -5,6 +5,7 @@ import hash from "./utils/checkHash.mjs";
 import validateSession from "./utils/validateSession.mjs";
 import AddFriend from "./utils/addFriend.mjs";
 import getUser from "./utils/getCurrent.mjs";
+import UserExists from "./utils/userExists.mjs";
 
 const router = express.Router();
 
@@ -116,9 +117,7 @@ router.post("/add", async(req, res) =>{
         const {friendUsername} = req.body;
 
         // check if the user the person wants to add exists in the db 
-        let collection = await db.collection("users");
-        const query = {user: friendUsername};
-        let isFriend = await collection.findOne(query);
+        let isFriend = await UserExists(db, friendUsername);
 
         // if the searched user exists 
         if (isFriend){

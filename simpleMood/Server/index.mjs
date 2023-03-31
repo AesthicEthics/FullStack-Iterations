@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import router from "./routes/urlEndpoints.mjs"
+import router from "./routes/urlEndpoints.mjs";
+import userRouter from "./routes/userEndpoints.mjs";
 
 const app = express();
 const PORT = 8080;
@@ -10,13 +11,14 @@ app.use(cors({
     credentials: true
 }));
 
-// enable cors handling for all preflight requests
-// to allow for custom headers and establishing cookies
 app.use(express.json());
 
+//
 app.use("/", router);
+// Use the userRouter
+app.use("/users", userRouter);
 
 
 app.listen(PORT, () => {
     console.log(`Started Server on ${PORT}`);
-})
+});
