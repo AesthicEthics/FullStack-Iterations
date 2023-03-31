@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import "./friends.css"
 
 async function getFriends(){
     const url = "http://localhost:8080/friends";

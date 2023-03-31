@@ -1,13 +1,16 @@
-import Logout from "../utils/logout"
+import Logout from "../utils/logout";
+import "./navbar.css";
 
 function Navbar(){
     return(
         <>
-        <div>
-            <ul><a href="/home">Home </a></ul>
-            <ul><a href="/add">Add Friend</a> </ul>
-            <ul><button onClick={(e) => {Logout()}}> Sign Out</button></ul>
-        </div>
+            <body>
+                <div class="nav-div">
+                    <ul><a class="nav-a"href="/home">Home </a></ul>
+                    <ul><a class="nav-a" href="/add">Add Friend</a> </ul>
+                    <ul><a class="nav-a" href="#" onClick={(e) => {Logout()}}> Sign Out</a></ul>
+                </div>
+            </body>
         </>
     )
 }

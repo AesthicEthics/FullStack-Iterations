@@ -22,10 +22,11 @@ userRouter.get("/:username?", async (req,res) => {
         if (userExists){
             // load user profile
             
+            res.status(200).send("User Found")
         }
 
         else{
-            res.send("User Does Not Exist");
+            res.status(403).send("User Does Not Exist");
         }
     }
     else{
