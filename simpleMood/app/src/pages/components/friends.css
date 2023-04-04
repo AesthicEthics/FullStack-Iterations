@@ -1,0 +1,19 @@
+.a-friends:link{
+    text-decoration: none;
+    color:black;
+}
+
+.a-friends:hover{
+    text-decoration:double;
+}
+
+.friendDiv{
+    text-align: left;
+    padding-top: 3%;
+}
+
+.friendBox{
+    margin:0;
+    padding: 0;
+    display: block;
+}

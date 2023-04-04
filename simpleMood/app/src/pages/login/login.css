@@ -1,0 +1,14 @@
+input{
+    margin: 0.25%;
+}
+
+label{
+    font-family:-apple-system,BlinkMacSystemFont, sans-serif;
+}
+
+
+#loginContainer{
+    text-align: center;
+    padding-top:25%;
+    font-family:-apple-system,BlinkMacSystemFont, sans-serif;
+}
