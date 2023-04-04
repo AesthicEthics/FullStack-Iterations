@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "./friends.css"
 
 async function getFriends(){
-    const url = "http://localhost:8080/friends";
+    const url = "http://10.0.0.134:8080/friends";
     axios.defaults.withCredentials = true;
 
     try {

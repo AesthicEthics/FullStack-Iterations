@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 async function handleSubmit(username, password){
   // add the backend url
-  const url = "http://localhost:8080/login";
+  const url = "http://10.0.0.134:8080/login";
   axios.defaults.withCredentials = true; // include credentials
   // construct postContents in json form
   const postContents = {
@@ -35,9 +35,18 @@ function Login() {
     // everytime the page is loaded and only do it when an "event" occurs
      <>
      <div id="loginContainer">
-        <form onSubmit={(e) =>{ 
-          if(handleSubmit(userName, password)){
-            history.push("/home");
+
+        <form onSubmit={async (e) =>{ 
+          e.preventDefault();
+          var confirmLogin = false;
+          await handleSubmit(userName, password)
+          .then((result) => {
+            confirmLogin = result;
+          })
+          if(confirmLogin ){
+            history.push({
+              pathname: "/home"
+            });
           }}}>
           
           <div>

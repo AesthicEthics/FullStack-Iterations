@@ -14,7 +14,7 @@ userRouter.get("/:username?", async (req,res) => {
 
     // check for valid session 
     const isSession = await validateSession(db,res,req);
-
+    console.log("Found");
     if (isSession){
         // check if user exists 
         const userExists = await UserExists(db, getUser);

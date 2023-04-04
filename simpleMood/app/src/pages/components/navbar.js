@@ -4,7 +4,7 @@ import "./navbar.css";
 import { useEffect, useState } from "react";
 
 async function getUser(){
-    const url = "http://localhost:8080/getUser";
+    const url = "http://10.0.0.134:8080/getUser";
     axios.defaults.withCredentials = true;
 
     try {

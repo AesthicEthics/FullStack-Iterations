@@ -3,7 +3,9 @@ async function UserExists(db, username){
     const query = {user: username};
     let isFriend = await collection.findOne(query);
 
-    return isFriend
+    if (isFriend){
+        return true
+    }
 }
 
 export default UserExists;

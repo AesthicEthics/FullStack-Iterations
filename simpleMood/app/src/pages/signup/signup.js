@@ -5,7 +5,7 @@ import axios from 'axios';
 async function handleSubmit (username, password, email){
     // handle Navigation by changing history pointer
     // add the backend url
-    const url = "http://localhost:8080/signup";
+    const url = "http://10.0.0.134:8080/signup";
     axios.defaults.withCredentials = true; // include credentials
     // construct postContents in json form
     const postContents = {

@@ -11,21 +11,22 @@ async function loadUser(url){
             return response.data
         }
     } catch (error) {
-        console.log(error.response.data);
+        console.log(error.data);
     }
 }
+
 function User(){
     const params = useParams();
-    const url = `http://localhost:8080/users/${params.username}`;
+    const url = `http://l0.0.0.134:8080/users/${params.username}`;
     const [isUser, setIsUser] = useState(null);
 
     useEffect(() => {
-        loadUser(url).then((results) => {
+       loadUser(url).then((results) => {
             setIsUser(results);
         });
     }, [url]);
 
-    if (isUser){
+    if (isUser === true){
         return(
             <div>{params.username}</div>
         )

@@ -7,16 +7,16 @@ const app = express();
 const PORT = 8080;
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "http://10.0.0.134:3000",
     credentials: true
 }));
 
 app.use(express.json());
 
 //
-app.use("/", router);
 // Use the userRouter
 app.use("/users", userRouter);
+app.use("/", router);
 
 
 app.listen(PORT, () => {

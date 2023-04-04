@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 async function ConfirmLogin() {
-    const url = "http://localhost:8080/home";
+    const url = "http://10.0.0.134:8080/home";
     axios.defaults.withCredentials = true; // include credentials
     
     let login = false;
@@ -13,7 +13,7 @@ async function ConfirmLogin() {
       }
     } catch (error) {
       if (error.response.status === 403) {
-        alert(error.response.data);
+        console.log(error.response.data);
       }
     }
   

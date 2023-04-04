@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 async function handleSubmit(friendUsername){
-    const url = "http://localhost:8080/add";
+    const url = "http://10.0.0.134:8080/add";
     axios.defaults.withCredentials = true;
 
     const postContents = {

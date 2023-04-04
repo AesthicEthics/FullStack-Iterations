@@ -1,7 +1,7 @@
 import axios from "axios";
 
 async function Logout(){
-    const url = "http://localhost:8080/logout";
+    const url = "http://10.0.0.134:8080/logout";
     axios.defaults.withCredentials = true;
 
     try{

@@ -42,8 +42,9 @@ router.post("/login", async (req,res) => {
         // auth
         let sessionCollection = await db.collection("sessions")
         var sessionCookie = req.headers.cookie?.split('=')[1];
+        console.log(req.headers.cookie);
 
-        if (sessionCookie){
+        if (sessionCookie != undefined){
             // if the session Cookie exists, check for its existence in the db
             let cookieQuery = {cookie: sessionCookie};
 
@@ -88,7 +89,7 @@ router.post("/login", async (req,res) => {
 router.get("/home", async (req,res) => {
     const isSession = await validateSession(db, res, req);
 
-    if (isSession){
+    if (isSession === true){
         res.status(200).send();
     }
     else{
